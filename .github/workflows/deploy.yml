@@ -53,7 +53,6 @@ jobs:
               uses: actions/upload-pages-artifact@v3
               with:
                 path: ./wpgair/static
-
             # Step 6: Deploy to GitHub Pages
             - name: Deploy to GitHub Pages
               id: deployment
