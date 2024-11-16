@@ -56,7 +56,7 @@ jobs:
             - name: Build static HTML (if necessary)
               run: |
                 mkdir build
-                cp wpgair/core/templates/index.html build/index.html
+                cp ./core/templates/index.html build/index.html
                 cp -r wpgair/static build/static  # Ensure static assets are copied as well
             - name: Deploy to GitHub Pages
               id: deployment
