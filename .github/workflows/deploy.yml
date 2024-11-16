@@ -26,24 +26,29 @@ jobs:
         steps:
             - name: Checking out the Code
               uses: actions/checkout@v4
+
             - name: Setting up Python
               uses: actions/setup-python@v4
               with:
                 python-version: '3.11'
+
             - name: Install deps
               run: |
                 python3 -m venv env
                 source env/bin/activate
+                cd wpgair/wpgair
                 pip3 install -r requirements.txt
+
             - name: Collect static files
               run: |
                 source env/bin/activate
+                cd wpgair/wpgair
                 python3 manage.py collecstatic --noinput
             # Step 5: Upload the static files to GitHub Pages
             - name: Upload static files to GitHub Pages
               uses: actions/upload-pages-artifact@v3
               with:
-                path: ./static
+                path: ./wpgair/wpgair/static
 
             # Step 6: Deploy to GitHub Pages
             - name: Deploy to GitHub Pages
