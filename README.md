@@ -43,3 +43,5 @@ $ sudo docker build -t wpgair -f Dockerfile .
 ```bash
 $ sudo docker run -p 8083:8000 wpgair
 ```
+
+- Access the site using localhost:8083 or if you changed the port then replace 8083
