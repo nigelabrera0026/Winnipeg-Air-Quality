@@ -45,14 +45,20 @@ jobs:
             - name: Collect static files
               run: |
                 source env/bin/activate
-                cd wpgair
+                
                 python3 manage.py collectstatic --noinput
-   
-            - name: Upload static files to GitHub Pages
-              uses: actions/upload-pages-artifact@v3
-              with:
-                path: ./wpgair/static
+   # cd wpgair
+            # - name: Upload static files to GitHub Pages
+            #   uses: actions/upload-pages-artifact@v3
+            #   with:
+            #     path: ./wpgair/static
 
+            - name: Build static HTML (if necessary)
+              run: |
+                mkdir build
+                cp wpgair/core/templates/index.html build/index.html
+                cp -r wpgair/static build/static  # Ensure static assets are copied as well
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v4
+              
