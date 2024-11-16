@@ -52,7 +52,8 @@ jobs:
             - name: Build static HTML (if necessary)
               run: |
                 mkdir build
-                cp wpgair/core/templates/core/index.html build/index.html  # Corrected path
+                cp wpgair/core/templates/core/index.html build/index.html
+                cp wpgair/core/templates/core/base.html build/base.html
                 cp -r wpgair/static build/static
                  
             - name: Upload static files to GitHub Pages
