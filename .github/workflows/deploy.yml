@@ -46,6 +46,7 @@ jobs:
             - name: Collect static files
               run: |
                 source env/bin/activate
+                cd ..
                 python3 manage.py collectstatic --noinput
             # Step 5: Upload the static files to GitHub Pages
             - name: Upload static files to GitHub Pages
