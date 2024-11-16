@@ -40,13 +40,12 @@ jobs:
                 pip3 install -r requirements.txt
             # 4
             # Step 4: Navigate to the directory where manage.py is located
-            - name: Navigate to the directory with manage.py
-              run: cd wpgair/wpgair  # Navigate to the correct folder
+            # - name: Navigate to the directory with manage.py
+            #   run: cd wpgair/wpgair  # Navigate to the correct folder
 
             - name: Collect static files
               run: |
                 source env/bin/activate
-                cd wpgair/wpgair
                 python3 manage.py collectstatic --noinput
             # Step 5: Upload the static files to GitHub Pages
             - name: Upload static files to GitHub Pages
