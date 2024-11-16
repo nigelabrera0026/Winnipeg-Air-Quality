@@ -1,4 +1,4 @@
-name: Django deployment
+name: Winnipeg Air Quality Django App deployment
 
 on:
     push:
@@ -24,36 +24,35 @@ jobs:
             BUILD_PATH_PREFIX: ${{ github.event.repository.name }}
 
         steps:
-            # 1
+
             - name: Checking out the Code
               uses: actions/checkout@v4
-            # 2
+
             - name: Setting up Python
               uses: actions/setup-python@v4
               with:
                 python-version: '3.11'
-            # 3
+
             - name: Install deps
               run: |
                 python3 -m venv env
                 source env/bin/activate
                 pip3 install -r requirements.txt
-            # 4
-            # Step 4: Navigate to the directory where manage.py is located
+            
             - name: Navigate to the directory with manage.py
-              run: cd wpgair  # Navigate to the correct folder
+              run: cd wpgair  
 
             - name: Collect static files
               run: |
                 source env/bin/activate
                 cd wpgair
                 python3 manage.py collectstatic --noinput
-            # Step 5: Upload the static files to GitHub Pages
+   
             - name: Upload static files to GitHub Pages
               uses: actions/upload-pages-artifact@v3
               with:
                 path: ./wpgair/static
-            # Step 6: Deploy to GitHub Pages
+
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v4
