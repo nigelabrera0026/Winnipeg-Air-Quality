@@ -45,9 +45,9 @@ jobs:
             - name: Collect static files
               run: |
                 source env/bin/activate
-                
+                cd wpgair
                 python3 manage.py collectstatic --noinput
-   # cd wpgair
+ 
             # - name: Upload static files to GitHub Pages
             #   uses: actions/upload-pages-artifact@v3
             #   with:
