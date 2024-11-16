@@ -47,7 +47,7 @@ jobs:
               run: |
                 source env/bin/activate
                 cd wpgair/wpgair
-                python3 manage.py collecstatic --noinput
+                python3 manage.py collectstatic --noinput
             # Step 5: Upload the static files to GitHub Pages
             - name: Upload static files to GitHub Pages
               uses: actions/upload-pages-artifact@v3
