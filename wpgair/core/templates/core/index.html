@@ -1,30 +1,44 @@
 {% extends 'core/base.html'%}
-
 {% block title%}Welcome{% endblock %}
-
 {% block content %}
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-semibold mb-4">Air Quality Observations</h1>
+    <!-- Search Form -->
     <form method="get" class="mb-6">
-        <label for="limit" class="font-semibold mr-2">Show:</label>
-        <select id="limit" name="limit" onchange="this.form.submit()" class="border rounded p-2">
-            <option value="5" {% if limit == 5 %}selected{% endif %}>5</option>
-            <option value="10" {% if limit == 10 %}selected{% endif %}>10</option>
-            <option value="20" {% if limit == 20 %}selected{% endif %}>20</option>
-            <option value="50" {% if limit == 50 %}selected{% endif %}>50</option>
-            <option value="75" {% if limit == 75 %}selected{% endif %}>75</option>
-            <option value="100" {% if limit == 100 %}selected{% endif %}>100</option>
-        </select>
+        <div class="mb-4"><!-- Search text field. -->
+            <label for="search" class="font-semibold mr-2">Search Location:</label>
+            <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Enter Location" class="border rounded p-2"/>
+            <input type="hidden" name="limit" value="{{ limit }}"/>
+            <button type="submit" class="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-700">Search</button>
+        </div>
     </form>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for observation in air_quality_data %}
-            <div class="bg-white rounded-lg shadow-lg p-6">
-                <strong>Location:</strong> {{ observation.locationname }} <br>
-                <strong>Measurement Type:</strong> {{ observation.measurementtype }} <br>
-                <strong>Value:</strong> {{ observation.measurementvalue }} {{ observation.measurementunit }} <br>
-                <strong>Time:</strong> {{ observation.observationtime }}
-            </div>
-        {% endfor %}
-    </div>
+    <form method="get" class="mb-6">
+        <div class="mb-4"><!-- Dropdown for limit. -->
+            <label for="limit" class="font-semibold mr-2">Show:</label>
+            <input type="hidden" name="search" value="{{ search_query }}"/>
+            <select id="limit" name="limit" onchange="this.form.submit()" class="border rounded p-2">
+                <option value="5" {% if limit == 5 %}selected{% endif %}>5</option>
+                <option value="10" {% if limit == 10 %}selected{% endif %}>10</option>
+                <option value="20" {% if limit == 20 %}selected{% endif %}>20</option>
+                <option value="50" {% if limit == 50 %}selected{% endif %}>50</option>
+                <option value="75" {% if limit == 75 %}selected{% endif %}>75</option>
+                <option value="100" {% if limit == 100 %}selected{% endif %}>100</option>
+            </select>
+        </div>
+    </form>
+    {% if no_data_message %}
+        <p class="text-6xl text-red-500">{{ no_data_message }}</p>
+    {% else %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for observation in air_quality_data %}
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <strong>Location:</strong> {{ observation.locationname }} <br/>
+                    <strong>Measurement Type:</strong> {{ observation.measurementtype }} <br/>
+                    <strong>Value:</strong> {{ observation.measurementvalue }} {{ observation.measurementunit }} <br/>
+                    <strong>Time:</strong> {{ observation.formatted_time }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
