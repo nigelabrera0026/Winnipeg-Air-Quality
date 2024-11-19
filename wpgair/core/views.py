@@ -72,13 +72,13 @@ def index(request):
         data = search(data, search_query)
     #     data = [observation for observation in data if search_query in observation.get("locationname", "").lower()]
 
-    result_data = data[:limit]
+    result_data = data[:limit] # include limit 
     
-    #? If no data is returned
     no_data_message = None
+
+    #? If no data is returned
     if not data:
         no_data_message = "No Data Available!"
-
 
     #? Context variables are defined here (right side variables) 
     #? and would be forwarded to the frontend (left side variables)

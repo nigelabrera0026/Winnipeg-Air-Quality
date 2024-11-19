@@ -1,6 +1,6 @@
 # Winnipeg Air Quality Django app
 
-This an application that utilizes Django and City of Winnipeg's API
+This an application that utilizes Django and City of Winnipeg's API. This shows the air quality of the surrounding areas of Winnipeg such as St. James East, Booth, Charleswood, and Transcona.
 
 ## Installation to run locally.
 NOTE: The environment use is Linux, you can use WSL2 as well.
