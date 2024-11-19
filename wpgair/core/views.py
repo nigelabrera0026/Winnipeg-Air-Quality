@@ -34,67 +34,42 @@ def time_format(data):
     return observation["formatted_time"]
 
 
-def search(data, search_query):
-    """
-    Search for a specific function
-    """
-    results = []
-
-    #? Looping through the data
-    for observation in data:
-        location_name = observation.get("locationname", '').lower()
-
-        #? Check if the location name contains the search query
-        if search_query in location_name:
-            results.append(observation)
-
-    return results
-
-
-
 def index(request):
     #? Defining the API endpoint
     api_url = "https://data.winnipeg.ca/resource/f58p-2ju3.json"
 
-    #? Implementing a limit and the set the default as 10
-    limit = int(request.GET.get('limit', 10))
+    #? Implementing a limit and the default as 10
+    limit = int(request.GET.get('limit', 5))
 
-    #? Query Parameters
+    #? Base query parameters
     query_param = f"?$limit={limit}"
 
-    #? Fetch data for default (If page is refreshed for default)
-    response = requests.get(f"{api_url}{query_param}")
-
-    #? Parsing
-    data = response.json()
-
-    #? Invoke the function to format the time.
-    time_format(data)
-
     #? Creating a search query and stripping it into keywords
-    #? .get('search', '') is pointing in the input with the name search
     search_query = request.GET.get('search', '').lower().strip()
 
-    result_data = []
-    no_data_message = None
-
+    #? Add search query to API call if it exists
     if search_query:
-        result_data = search(data, search_query)
+        query_param += f"&$q={search_query}"
 
-        if not result_data:
-            no_data_message = "No Data Available!"
+    #? Fetch data from the API
+    response = requests.get(f"{api_url}{query_param}")
+    data = response.json()
 
-    else: #? Show default information
-        result_data = data
-        no_data_message = None
-    
+    #? Invoke the function to format the time
+    time_format(data)
+
+    #? If no data is returned
+    no_data_message = None
+    if not data:
+        no_data_message = "No Data Available!"
+
     #? Context variables are defined here (right side variables) 
     #? and would be forwarded to the frontend (left side variables)
     context = {
-        'air_quality_data': result_data,
-        'limit' : limit,
+        'air_quality_data': data,
+        'limit': limit,
         'search_query': search_query,
         'no_data_message': no_data_message,
     }
-    
+
     return render(request, 'core/index.html', context)
